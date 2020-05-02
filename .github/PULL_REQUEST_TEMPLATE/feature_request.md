@@ -8,10 +8,6 @@ assignees: ""
 
 ## Overview
 
-## Tasks
-
-- [ ]
-
 ## TODO
 
 ## Other
