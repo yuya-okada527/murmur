@@ -9,7 +9,7 @@ POSTGRES_DB=murmur
 docker run -d --rm \
 --name local-db \
 -v $PWD/initdb:/docker-entrypoint-initdb.d \
--p 5432:5432 \
+-p 54321:5432 \
 -e POSTGRES_USER=${POSTGRES_USER} \
 -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
 -e POSTGRES_DB=${POSTGRES_DB} \
