@@ -2,7 +2,8 @@ from typing import List, Tuple
 
 from sqlalchemy.orm import Session
 
-from app import models, schemas
+from app.routers import schemas
+from app.infra import models
 
 
 def get_all_murmurs(
@@ -10,7 +11,10 @@ def get_all_murmurs(
         offset: int,
         limit: int) -> Tuple[List[schemas.Murmur], int]:
     query = db.query(models.Murmur)
-    db_murmurs = query.limit(limit).offset(offset).all()
+    db_murmurs = query.limit(limit) \
+        .offset(offset) \
+        .order_by(models.Murmur.time) \
+        .all()
     murmurs = list(map(lambda murmur: schemas.Murmur(
         id=murmur.id,
         user_id=murmur.user_id,

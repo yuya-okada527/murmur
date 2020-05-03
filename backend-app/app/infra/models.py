@@ -6,7 +6,7 @@ from sqlalchemy import (
     Sequence
 )
 
-from .database import Base
+from ..infra.database import Base
 
 
 class Murmur(Base):
