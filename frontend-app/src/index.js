@@ -15,7 +15,7 @@ class TopPage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <Header title="Murmur" />
         <Murmurs />
         <PostArea />
@@ -26,9 +26,9 @@ class TopPage extends React.Component {
 
 const Header = (props) => {
   return (
-    <div>
-      <h1>{props.title}</h1>
-    </div>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary mt-4 mb-4">
+      <h1 className="m-1 navbar-brand">{props.title}</h1>
+    </nav>
   );
 };
 
@@ -58,11 +58,11 @@ class Murmurs extends React.Component {
   render() {
     const murmurs = this.state.murmurs.map((murmur) => {
       return (
-        <div>
+        <ul className="list-unstyled">
           <li key={murmur.id}>
             <Murmur value={murmur} />
           </li>
-        </div>
+        </ul>
       );
     });
     return <div>{murmurs}</div>;
@@ -71,20 +71,24 @@ class Murmurs extends React.Component {
 
 const Murmur = (props) => {
   return (
-    <div class="card">
-      <div class="user-info">
+    <div className="card border-primary">
+      <div className="card-header">
         {props.value.user_name + "@" + props.value.user_id}
       </div>
-      <div class="message-area">{props.value.message}</div>
+      <div className="card-body card-text mr-3 ml-3">{props.value.message}</div>
     </div>
   );
 };
 
 const PostArea = (props) => {
   return (
-    <form>
-      <input></input>
-      <button />
+    <form className="form-inline bg-primary">
+      <input
+        type="text"
+        className="form-control mt-2 mb-2 ml-2 col-10"
+        placeholder="message"
+      />
+      <button className="btn btn-success mx-auto m-1 pr-4 pl-4">Murmur</button>
     </form>
   );
 };
