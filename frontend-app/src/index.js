@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "bootstrap/dist/css/bootstrap.css";
 
 class TopPage extends React.Component {
   constructor(props) {
