@@ -11,9 +11,9 @@ def get_all_murmurs(
         offset: int,
         limit: int) -> Tuple[List[schemas.Murmur], int]:
     query = db.query(models.Murmur)
-    db_murmurs = query.limit(limit) \
+    db_murmurs = query.order_by(models.Murmur.time) \
+        .limit(limit) \
         .offset(offset) \
-        .order_by(models.Murmur.time) \
         .all()
     murmurs = list(map(lambda murmur: schemas.Murmur(
         id=murmur.id,

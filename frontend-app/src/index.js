@@ -2,6 +2,40 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
+const URL = "http://localhost:8000";
+
+async function callApiByPost(path, body) {
+  const url = URL + path;
+  const method = "POST";
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+  const response = await fetch(url, {
+    method,
+    headers,
+    body,
+  });
+  return response;
+}
+
+async function callApiByGet(path) {
+  const url = URL + path;
+  const method = "GET";
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+  const response = await fetch(url, {
+    method,
+    headers,
+  })
+    .then((res) => res.text())
+    .then((body) => JSON.parse(body));
+
+  return response;
+}
+
 class TopPage extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +52,7 @@ class TopPage extends React.Component {
       <div className="container">
         <Header title="Murmur" />
         <Murmurs />
-        <PostArea />
+        <PostArea user={this.state.user} />
       </div>
     );
   }
@@ -36,23 +70,17 @@ class Murmurs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      murmurs: [
-        {
-          id: 1,
-          user_id: "00000001",
-          user_name: "user1",
-          message: "message1",
-          time: "2020-04-23T10:20:30.400+02:30",
-        },
-        {
-          id: 2,
-          user_id: "00000002",
-          user_name: "user2",
-          message: "message2",
-          time: "2020-04-27T10:20:30.400+02:30",
-        },
-      ],
+      murmurs: [],
     };
+    this.fetchAll();
+  }
+
+  async fetchAll() {
+    const path = "/murmurs/all";
+    const response = await callApiByGet(path);
+    this.setState({
+      murmurs: response.result,
+    });
   }
 
   render() {
@@ -80,17 +108,62 @@ const Murmur = (props) => {
   );
 };
 
-const PostArea = (props) => {
-  return (
-    <form className="form-inline bg-primary">
-      <input
-        type="text"
-        className="form-control mt-2 mb-2 ml-2 col-10"
-        placeholder="message"
-      />
-      <button className="btn btn-success mx-auto m-1 pr-4 pl-4">Murmur</button>
-    </form>
-  );
-};
+class PostArea extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: props.user,
+      message: "",
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    this.createMurmur();
+    event.preventDefault();
+    this.setState({
+      user: this.state.user,
+      message: "",
+    });
+  }
+
+  handleChange(event) {
+    this.setState({
+      user: this.state.user,
+      message: event.target.value,
+    });
+  }
+
+  createMurmur() {
+    const path = "/murmurs";
+    const body = JSON.stringify({
+      user_id: this.state.user.user_id,
+      user_name: this.state.user.user_name,
+      message: this.state.message,
+    });
+    callApiByPost(path, body);
+  }
+
+  render() {
+    return (
+      <form className="form-inline bg-primary mb-5">
+        <input
+          type="text"
+          className="form-control mt-2 mb-2 ml-2 col-10"
+          placeholder="message"
+          onChange={this.handleChange}
+        />
+        <input
+          type="submit"
+          value="Murmur"
+          className="btn btn-success mx-auto m-1 pr-4 pl-4"
+          onClick={this.handleClick}
+        />
+      </form>
+    );
+  }
+}
 
 ReactDOM.render(<TopPage />, document.getElementById("root"));
