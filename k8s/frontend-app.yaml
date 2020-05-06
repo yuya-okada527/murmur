@@ -1,0 +1,31 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontend-app
+    spec:
+      containers:
+        - name: frontend-app
+          image: {ECR_HOST}/murmur/frontend-app
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-app-lb
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "http-port"
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+  selector:
+    app: frontend-app

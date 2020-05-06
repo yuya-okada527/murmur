@@ -15,7 +15,8 @@
   - React
   - Bootstrap
 - 配布方法
-  - S3 -> CloudFront
+  - EKS on EC2
+  - nginx image で起動する
 
 #### バックエンド APP
 
