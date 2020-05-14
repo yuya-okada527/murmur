@@ -5,12 +5,12 @@ DB_USER=$1
 DB_PASSWORD=$2
 
 # コンテナのビルド
-docker build -t murmur/backend-app ../backend-app
+docker build -t murmur/be-app ./backend-app
 
 # バックエンドコンテナの立ち上げ
-docker run -d --rm \
---name backend-api \
+docker run --rm \
+--name be-app \
 -p 8080:80 \
 -e DB_USER=${DB_USER} \
 -e DB_PASSWORD=${DB_PASSWORD} \
-murmur/backend-app
+murmur/be-app

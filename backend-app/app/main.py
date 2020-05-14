@@ -8,10 +8,10 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from .middleware.security import origins
-from .infra import models
-from .infra.database import engine
-from .routers import murmurs, sample
+from app.middleware.security import origins
+from app.infra import models
+from app.infra.database import engine
+from app.routers import murmurs, sample
 
 models.Base.metadata.create_all(bind=engine)
 
