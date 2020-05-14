@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import Depends, UploadFile, File, Form, HTTPException, APIRouter
 from starlette import status
 
-from ..middleware.security import oauth2_scheme
+from app.middleware.security import oauth2_scheme
 
 router = APIRouter()
 

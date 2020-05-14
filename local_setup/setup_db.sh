@@ -8,7 +8,7 @@ POSTGRES_DB=murmur
 # DBコンテナの立ち上げ
 docker run -d --rm \
 --name local-db \
--v $PWD/initdb:/docker-entrypoint-initdb.d \
+-v $PWD/local_setup/initdb:/docker-entrypoint-initdb.d \
 -p 54321:5432 \
 -e POSTGRES_USER=${POSTGRES_USER} \
 -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \

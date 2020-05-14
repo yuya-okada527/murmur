@@ -4,9 +4,9 @@ from fastapi import (
 )
 from sqlalchemy.orm import Session
 
-from ..routers import schemas
-from ..infra import crud
-from ..infra.database import get_db
+from app.routers import schemas
+from app.infra import crud
+from app.infra.database import get_db
 
 router = APIRouter()
 
